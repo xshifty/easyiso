@@ -1,13 +1,12 @@
-mod types;
-mod routes;
 mod auth;
-mod domain;
-mod services;
-
-use tower_http::trace::TraceLayer;
+mod routes;
+mod templates;
 
 use axum::Router;
-use tower_http::services::ServeDir;
+use tower_http::{
+    services::ServeDir,
+    trace::TraceLayer,
+};
 
 #[tokio::main]
 async fn main() {

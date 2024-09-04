@@ -4,10 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+askama = "0.12.1"
 axum = { version = "0.7.5", features = ["macros"] }
-axum-template = { version = "2.3.0", features = ["minijinja", "minijinja-autoreload"] }
-minijinja = { version = "2.1.1", features = ["loader"] }
-minijinja-autoreload = { version = "2.1.1", features = ["watch-fs"] }
 serde = "1.0.204"
 sqlx = "0.8.0"
 tokio = { version = "1.39.2", features = ["macros", "rt", "rt-multi-thread"] }

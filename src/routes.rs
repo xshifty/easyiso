@@ -6,8 +6,8 @@ use axum::{
     response::{ Response, Redirect, IntoResponse },
     routing::{ get, post },
 };
-use crate::auth::{ SignIn, is_user_authenticated, authenticate };
-use crate::templates;
+use crate::auth::{SignIn, is_user_authenticated, authenticate };
+use crate::{db, models, templates};
 use crate::templates::Base;
 
 pub fn routes() -> Router {
@@ -33,11 +33,15 @@ pub async fn show_index() -> Response {
 }
 
 pub async fn show_login() -> Response {
+    let conn = db::POOL.get().as_mut().unwrap();
+    let user = models::User::get_user_by_id(conn, 1);
+
     let login = templates::Login{
         base: Base{
             navbar: false,
             authenticated: false,
         },
+        user_email: user.email,
     };
 
     Response::builder()

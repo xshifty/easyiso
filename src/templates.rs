@@ -15,6 +15,7 @@ pub struct Index {
 #[template(path = "login.j2")]
 pub struct Login {
     pub base: Base,
+    pub user_email: &'static str,
 }
 
 #[derive(Template)]

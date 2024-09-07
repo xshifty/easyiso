@@ -1,8 +1,12 @@
 mod auth;
 mod routes;
 mod templates;
+mod schema;
+mod models;
+mod db;
 
 use axum::Router;
+use dotenv::dotenv;
 use tower_http::{
     services::ServeDir,
     trace::TraceLayer,
@@ -10,6 +14,10 @@ use tower_http::{
 
 #[tokio::main]
 async fn main() {
+    if cfg!(debug_assertions) {
+        dotenv().ok();
+    }
+
     tracing_subscriber::fmt()
         .with_max_level(tracing::Level::DEBUG)
         .init();

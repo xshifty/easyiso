@@ -40,13 +40,18 @@ pub fn login_processor() -> Response {
 
 #[get("/dashboard")]
 pub fn dashboard_page() -> Response {
-    let template = Template::render("dashboard", context!{});
+    let user = UserRepo.get_user_by_id(1);
+
+    let template = Template::render("dashboard", context!{
+        full_name: user.full_name,
+    });
     Response::Template(template)
 }
 
 #[get("/component/dashboard")]
 pub fn dashboard_component() -> Response {
     let user = UserRepo.get_user_by_id(1);
+
     let template = Template::render("components/dashboard", context! {
         full_name: user.full_name,
     });

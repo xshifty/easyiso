@@ -12,12 +12,11 @@
     </head>
     <body hx-boost="true" class="grey lighten-5">
         <nav class="blue darken-4" role="navigation">
-            <div class="nav-wrapper container"><a href="#" id="logo-container" class="brand-logo">EasyISO</a></div>
+            <div class="nav-wrapper container"><a href="/" id="logo-container" class="brand-logo">EasyISO</a></div>
         </nav>
 
-        <div class="section no-pad-bot">
-            <br><br>
-            <div class="container" id="main_content">
+        <div class="row">
+            <div class="col s12" id="main_content">
             {% block content %}
                 {% if is_logged_in %}
                     {% include 'components/dashboard' %}
@@ -26,7 +25,6 @@
                 {% endif %}
             {% endblock %}
             </div>
-            <br><br>
         </div>
 
         <footer class="page-footer blue darken-4">

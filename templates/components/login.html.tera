@@ -1,0 +1,23 @@
+<form hx-post="/login" hx-target="#main_content" hx-push-url="/dashboard" class="container">
+    <div class="z-depth-1 white row" style="padding: 32px; border: 1px solid #ccc;">
+        <div class="row">
+            <h5 class="indigo-text bold col s12">Login</h5>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" class="validate" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" class="validate" />
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Entrar" class="btn btn-large col s12 indigo darken-4 center" />
+        </div>
+    </div>
+</form>

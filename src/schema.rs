@@ -5,7 +5,7 @@ diesel::table! {
         certification_id -> Int4,
         checklist_id -> Int4,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -14,7 +14,7 @@ diesel::table! {
         certification_id -> Int4,
         event_id -> Int4,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -23,7 +23,7 @@ diesel::table! {
         certification_id -> Int4,
         role_id -> Int4,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -33,7 +33,7 @@ diesel::table! {
         #[max_length = 100]
         name -> Nullable<Varchar>,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -47,7 +47,7 @@ diesel::table! {
         description -> Varchar,
         checklist_order -> Int4,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -59,7 +59,7 @@ diesel::table! {
         #[max_length = 500]
         description -> Nullable<Varchar>,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -70,7 +70,7 @@ diesel::table! {
         event_start -> Timestamp,
         event_end -> Timestamp,
         event_result -> Int4,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -83,7 +83,7 @@ diesel::table! {
         event_count -> Int4,
         event_delay_sec -> Int4,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -97,7 +97,7 @@ diesel::table! {
         #[sql_name = "type"]
         type_ -> Int4,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -106,7 +106,7 @@ diesel::table! {
         group_id -> Int4,
         role_id -> Int4,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -116,7 +116,7 @@ diesel::table! {
         #[max_length = 50]
         name -> Nullable<Varchar>,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -126,7 +126,7 @@ diesel::table! {
         #[max_length = 50]
         name -> Nullable<Varchar>,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -135,7 +135,7 @@ diesel::table! {
         user_id -> Int4,
         group_id -> Int4,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 
@@ -147,9 +147,9 @@ diesel::table! {
         #[max_length = 100]
         email -> Varchar,
         #[max_length = 256]
-        password -> Nullable<Varchar>,
+        password -> Varchar,
         enabled -> Bool,
-        created_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
     }
 }
 

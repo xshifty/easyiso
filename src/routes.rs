@@ -1,101 +1,54 @@
-use askama::Template;
-use axum::{
-    Router,
-    Form,
-    http::StatusCode,
-    response::{ Response, Redirect, IntoResponse },
-    routing::{ get, post },
-};
-use crate::auth::{SignIn, is_user_authenticated, authenticate };
-use crate::{db, models, templates};
-use crate::templates::Base;
+#[allow(unused)]
 
-pub fn routes() -> Router {
-    Router::new()
-        .route("/", get(show_index))
-        .route("/login", post(process_login).get(show_login))
-        .route("/dashboard", get(show_dashboard))
+use std::fmt::Debug;
+use rocket::{response::Redirect};
+use rocket_dyn_templates::{context, Template};
+use crate::container::*;
+
+
+#[derive(Debug,Responder)]
+pub enum Response {
+    Template(Template),
+    Redirect(Redirect),
 }
 
-pub async fn show_index() -> Response {
-    let index = templates::Index{
-        base: Base{
-            navbar: true,
-            authenticated: is_user_authenticated(),
-        },
-    };
-
-    Response::builder()
-        .status(StatusCode::OK)
-        .body(index.render().unwrap())
-        .unwrap()
-        .into_response()
+#[get("/")]
+pub fn index_page() -> Response {
+    let template = Template::render("index", context!{
+        is_logged_in: false,
+    });
+    Response::Template(template)
 }
 
-pub async fn show_login() -> Response {
-    let conn = db::POOL.get().as_mut().unwrap();
-    let user = models::User::get_user_by_id(conn, 1);
-
-    let login = templates::Login{
-        base: Base{
-            navbar: false,
-            authenticated: false,
-        },
-        user_email: user.email,
-    };
-
-    Response::builder()
-        .status(StatusCode::OK)
-        .body(login.render().unwrap())
-        .unwrap()
-        .into_response()
+#[get("/login")]
+pub fn login_page() -> Response {
+    let template = Template::render("login", context!{});
+    Response::Template(template)
 }
 
-pub async fn process_login(Form(sign_in): Form<SignIn>) -> Response {
-    match authenticate(sign_in) {
-        Ok(_) => Redirect::to("/dashboard").into_response(),
-        Err(_) => Redirect::to("/login").into_response(),
-    }
+#[get("/component/login")]
+pub fn login_component() -> Response {
+    let template = Template::render("components/login", context!{});
+    Response::Template(template)
 }
 
-pub async fn show_dashboard() -> Response {
-    if !is_user_authenticated() {
-        return Redirect::to("/login").into_response();
-    }
-    let dashboard = templates::Dashboard{
-        base: Base{
-            navbar: true,
-            authenticated: false,
-        },
-    };
-
-    Response::builder()
-        .status(StatusCode::OK)
-        .body(dashboard.render().unwrap())
-        .unwrap()
-        .into_response()
+#[post("/login")]
+pub fn login_processor() -> Response {
+    let redirect = Redirect::to(uri!(dashboard_component));
+    Response::Redirect(redirect)
 }
 
-// pub async fn show_certification(engine: AppEngine, Path((cert_uuid, _)): Path<(String, String)>) -> Response {
-//     let repo = services::CertificationRepository::new();
-//     let cuuid = Uuid::parse_str(&cert_uuid[..]).unwrap();
-//
-//     match repo.get_certification_by_uuid(cuuid) {
-//         Some(c) => {
-//             let mut cert_dto = c.to_dto();
-//
-//             let mut env = Environment::new();
-//             env.set_loader(path_loader(&crate::routes::get_jinja_template_path()));
-//             cert_dto.checklists = env.get_template("checklists_demo.askama")
-//                 .unwrap()
-//                 .render(context!{})
-//                 .unwrap()
-//                 .to_string();
-//
-//             RenderHtml("certification_details.askama", engine.clone(), context! {
-//                 certification => cert_dto,
-//             }).into_response()
-//         },
-//         None => RenderHtml("404.html.j2", engine, context! {}).into_response()
-//     }
-// }
+#[get("/dashboard")]
+pub fn dashboard_page() -> Response {
+    let template = Template::render("dashboard", context!{});
+    Response::Template(template)
+}
+
+#[get("/component/dashboard")]
+pub fn dashboard_component() -> Response {
+    let user = UserRepo.get_user_by_id(1);
+    let template = Template::render("components/dashboard", context! {
+        full_name: user.full_name,
+    });
+    Response::Template(template)
+}

@@ -116,8 +116,8 @@ CREATE TABLE IF NOT EXISTS certification_events (
 );
 
 -- SEED
-INSERT INTO users (full_name, email)
-VALUES ('John Doe', 'john.doe@easyiso.com.br');
+INSERT INTO users (full_name, email, password, enabled)
+VALUES ('John Doe', 'john.doe@easyiso.com.br', 'q1w2e3r4', true);
 
 INSERT INTO groups (name)
 VALUES ('Admin');

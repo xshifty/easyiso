@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 chrono = "0.4.38"
+uuid = { version = "1.10.0", features = ["v4"] }
 diesel = { version = "2.2.4", features = ["postgres", "chrono", "uuid", "r2d2"] }
 diesel_cli = "2.2.4"
 dotenv = "0.15.0"

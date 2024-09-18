@@ -7,9 +7,24 @@ use diesel::{
 };
 use dotenv::dotenv;
 use std::env;
-use crate::repository::UserRepository;
+use std::sync::Mutex;
+use crate::models::User;
+use crate::repositories::UserRepository;
 
 type PgPool = Pool<ConnectionManager<PgConnection>>;
+
+#[derive(Debug,Clone)]
+pub struct Auth {
+    pub is_logged_in: bool,
+    pub user: Option<User>
+}
+
+impl Auth {
+    pub fn update(&mut self, is_logged_in: bool, user: Option<User>) {
+        self.is_logged_in = is_logged_in;
+        self.user = user;
+    }
+}
 
 lazy_static! {
     pub static ref POOL: PgPool = {
@@ -20,6 +35,11 @@ lazy_static! {
             .build(ConnectionManager::new(db_url))
             .expect("Failed to create database connection pool")
     };
+
+    pub static ref AUTH: Mutex<Auth> = Mutex::new(Auth{
+        is_logged_in: false,
+        user: None,
+    });
 
     pub static ref UserRepo: UserRepository = {
         UserRepository{}

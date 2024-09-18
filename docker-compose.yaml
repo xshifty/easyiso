@@ -12,14 +12,5 @@ services:
       interval: 10s
       retries: 5
 
-  migrations:
-    image: willsquire/diesel-cli
-    depends_on:
-      - db
-    volumes:
-      - .:/app
-    environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-
 volumes:
   db_data:

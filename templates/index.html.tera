@@ -8,7 +8,24 @@
         <link rel="stylesheet" href="/public/css/style.css"/>
 
         <title>EasyISO</title>
-        {% block head %}{% endblock %}
+
+        <script src="/public/js/htmx.min.js"></script>
+        <script src="/public/js/materialize.min.js"></script>
+        <script>
+            window.addEventListener('load', function() {
+                let targetNode = document.getElementById('main_content');
+                let config = { attributes: true, childList: true };
+                let observer = new MutationObserver(apply_accordeon);
+                observer.observe(targetNode, config);
+
+                apply_accordeon();
+            });
+
+            let apply_accordeon = () => {
+                let elems = document.querySelectorAll('.collapsible');
+                M.Collapsible.init(elems);
+            };
+        </script>
     </head>
     <body hx-boost="true" class="grey lighten-5">
         <nav class="blue darken-4" role="navigation">
@@ -60,8 +77,5 @@
                 <div class="container"></div>
             </div>
         </footer>
-
-        <script src="/public/js/materialize.min.js"></script>
-        <script src="/public/js/htmx.min.js"></script>
     </body>
 </html>

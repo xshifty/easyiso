@@ -3,5 +3,18 @@
         <h3>Dashboard</h3>
         <hr>
         Ola {{ full_name }}!
+
+        <ul class="collapsible">
+        {% for certification in certifications %}
+            <li>
+                <div class="collapsible-header">{{ certification.name }}</div>
+                <div class="collapsible-body">
+                {% for checklist in certification.checklists %}
+                    {{ checklist.name }}
+                {% endfor %}
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
     </div>
 </div>

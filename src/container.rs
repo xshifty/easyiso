@@ -9,7 +9,7 @@ use dotenv::dotenv;
 use std::env;
 use std::sync::Mutex;
 use crate::models::User;
-use crate::repositories::UserRepository;
+use crate::repositories::{CertificationRepository, UserRepository};
 
 type PgPool = Pool<ConnectionManager<PgConnection>>;
 
@@ -43,5 +43,9 @@ lazy_static! {
 
     pub static ref UserRepo: UserRepository = {
         UserRepository{}
+    };
+
+    pub static ref CertificationRepo: CertificationRepository = {
+        CertificationRepository{}
     };
 }

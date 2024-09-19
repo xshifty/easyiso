@@ -25,17 +25,12 @@ pub fn index_page() -> Response {
     if user_opt.is_some() {
         let user = user_opt.unwrap();
         if user.enabled {
-            return Response::Template(Template::render("index", context!{
-                is_logged_in,
-                full_name: user.full_name,
-            }));
+            return Response::Redirect(Redirect::to(uri!(dashboard_page)));
         }
     }
 
     AUTH.lock().unwrap().update(false, None);
-    Response::Template(Template::render("index", context!{
-        is_logged_in: false,
-    }))
+    Response::Redirect(Redirect::to(uri!(login_page)))
 }
 
 #[derive(FromForm)]
@@ -78,11 +73,13 @@ pub fn dashboard_page() -> Response {
         return Response::Redirect(Redirect::to(uri!(login_page)))
     }
     let user_opt = AUTH.lock().unwrap().clone().user;
+    let certs = CertificationRepo.get_certifications_with_checklists();
 
     if user_opt.is_some() {
         let user = user_opt.unwrap();
         return Response::Template(Template::render("dashboard", context!{
             full_name: user.full_name,
+            certifications: certs,
         }));
     }
     Response::Redirect(Redirect::to(uri!(login_page)))
@@ -94,11 +91,13 @@ pub fn dashboard_component() -> Response {
         return Response::Redirect(Redirect::to(uri!(login_page)))
     }
     let user_opt = AUTH.lock().unwrap().clone().user;
+    let certs = CertificationRepo.get_certifications_with_checklists();
 
     if user_opt.is_some() {
         let user = user_opt.unwrap();
         return Response::Template(Template::render("components/dashboard", context!{
             full_name: user.full_name,
+            certifications: &certs,
         }));
     }
     Response::Redirect(Redirect::to(uri!(login_component)))
